@@ -182,7 +182,7 @@ def update_citecount(df_cites):
 
     # add citation to the count in database table
     for i,v in df_cites.iterrows():
-        total_cnt = get_cnt(conn, v['id']) + v['cnt']
+        total_cnt = get_cnt(conn, v['id']) + v['n']
         update_cnt(conn, v['id'], total_cnt)
     return
 

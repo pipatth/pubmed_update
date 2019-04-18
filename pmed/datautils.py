@@ -53,18 +53,6 @@ def get_jid(conn, journal):
     return jid
 
 
-# check if id exist in article, return 0 if not exist
-def get_id(conn, id):
-    # find id
-    stmt = sqlalchemy.text('''SELECT id FROM article WHERE id = :i''')
-    stmt = stmt.bindparams(i=id)
-    result = conn.execute(stmt).fetchall()
-    if result:
-        return id
-    else:
-        return 0
-
-
 # get all article id
 def get_ids(conn):
     # find all ids
@@ -75,8 +63,8 @@ def get_ids(conn):
 # get citation count
 def get_cnt(conn, id):
     # find id
-    stmt = sqlalchemy.text('''SELECT citations FROM article WHERE id = :i''')
-    stmt = stmt.bindparams(i=id)
+    stmt = sqlalchemy.text('''SELECT citations FROM citecount WHERE id = :i''')
+    stmt = stmt.bindparams(i=str(id))
     result = conn.execute(stmt).fetchall()
     if result:
         return result[0][0]
@@ -88,6 +76,6 @@ def get_cnt(conn, id):
 def update_cnt(conn, id, cnt):
     # update by id
     stmt = sqlalchemy.text('''UPDATE citecount SET citations = :c WHERE id = :i''')
-    stmt = stmt.bindparams(c=cnt, i=id)
+    stmt = stmt.bindparams(c=str(cnt), i=str(id))
     conn.execute(stmt)
     return

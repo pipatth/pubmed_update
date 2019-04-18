@@ -20,6 +20,5 @@ luigid
 ```
 - To run update on database
 ```
-python pmed/pipeline.py LoadDataTask --include-nodata 0
-python pmed/pipeline.py UpdateCiteCountTask
+python pmed/pipeline.py UpdateCiteCountTask --LoadDataTask-include-nodata 0
 ```
