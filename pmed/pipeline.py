@@ -8,7 +8,7 @@ from etl import prep_database, get_pmc_links, download_api, load_data, update_ci
 class PrepTask(luigi.Task):
     # output
     def output(self):
-        return luigi.LocalTarget('./prep.txt')
+        return luigi.LocalTarget('./output_prep.txt')
 
     # run task
     def run(self):
@@ -19,10 +19,8 @@ class PrepTask(luigi.Task):
         if not os.path.exists('./tmp'):
             os.makedirs('./tmp')
 
-        # cleanup temp files and log files
+        # cleanup temp files 
         for f in glob.glob("./tmp/*.pkl"):
-            os.remove(f)
-        for f in glob.glob("output*.txt"):
             os.remove(f)
         
         # write to log

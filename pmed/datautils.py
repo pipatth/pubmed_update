@@ -10,13 +10,13 @@ def create_tables(conn):
     conn.execute("DROP TABLE IF EXISTS citation")
     conn.execute("DROP TABLE IF EXISTS citecount")
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS journal (id INTEGER PRIMARY KEY UNIQUE AUTO_INCREMENT, name TEXT)")
+        "CREATE TABLE IF NOT EXISTS journal (id INTEGER PRIMARY KEY UNIQUE AUTO_INCREMENT, name TEXT) DEFAULT CHARSET=utf8mb4")
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY UNIQUE, title TEXT, abstract TEXT, pubyear INTEGER, jid INTEGER, keywords TEXT, pmc INTEGER)")
+        "CREATE TABLE IF NOT EXISTS article (id INTEGER PRIMARY KEY UNIQUE, title TEXT, abstract TEXT, pubyear INTEGER, jid INTEGER, keywords TEXT, pmc INTEGER) DEFAULT CHARSET=utf8mb4")
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS citation (id INTEGER PRIMARY KEY UNIQUE AUTO_INCREMENT, apmid INTEGER, bpmid INTEGER)")
+        "CREATE TABLE IF NOT EXISTS citation (id INTEGER PRIMARY KEY UNIQUE AUTO_INCREMENT, apmid INTEGER, bpmid INTEGER) DEFAULT CHARSET=utf8mb4")
     conn.execute(
-        "CREATE TABLE IF NOT EXISTS citecount (id INTEGER PRIMARY KEY UNIQUE, citations INTEGER)")
+        "CREATE TABLE IF NOT EXISTS citecount (id INTEGER PRIMARY KEY UNIQUE, citations INTEGER) DEFAULT CHARSET=utf8mb4")
     print('Tables created')
     return
 

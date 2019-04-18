@@ -2,9 +2,9 @@
 class Config(object):
     '''common config'''
     DB_CONFIG = {
-        'endpoints': '0.0.0.0',
-        'dbname': 'rvcapsrv1',
-        'username': 'root',
+        'endpoints': '127.0.0.1',
+        'dbname': 'rvcapdb',
+        'username': 'rvcap',
         'password': 'rWJ5is53',
         'pool_recycle': 3600
     }

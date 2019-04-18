@@ -105,8 +105,9 @@ def download_api(ids, outfile, save_dir):
         df_ref.to_pickle(os.path.join(save_dir, 'df_ref_' + str(i) + '.pkl'))
 
         # write to log
-        for id in df_data['pmid'].tolist():
-            outfile.write(id + '\n')
+        if len(df_data) != 0:
+            for id in df_data['pmid'].tolist():
+                outfile.write(id + '\n')
         i += 1
     print("All done!")
 
@@ -124,12 +125,19 @@ def load_data(pmc_file, outfile, data_dir, include_nodata=0):
     # open .pkl files
     filenames = os.listdir(data_dir)
 
-    # article
+    # open article files
     articles = []
     data_files = [f for f in filenames if f.startswith('df_data') and f.endswith('.pkl')]
     for f in data_files:
         articles.append(pd.read_pickle(os.path.join(data_dir, f)))
     df_article = pd.concat(articles, ignore_index=True)
+
+    # if no article, just exit
+    if len(df_article) == 0:
+        pd.DataFrame(columns=['id', 'n']).to_csv(outfile, sep='\t', index=False)
+        return df_article
+
+    # add articles
     df_article = df_article[df_article['year'] != '']
     df_article['id'] = df_article['pmid'].astype(int)
     df_article['pubyear'] = df_article['year'].astype(int)
@@ -149,12 +157,19 @@ def load_data(pmc_file, outfile, data_dir, include_nodata=0):
     write_tables(conn, df_article, 'article')
     print("Loaded {:} articles to database".format(len(df_article)))
 
-    # citations
+    # open citation files
     citations = []
     data_files = [f for f in filenames if f.startswith('df_ref') and f.endswith('.pkl')]
     for f in data_files:
         citations.append(pd.read_pickle(os.path.join(data_dir, f)))
     df_citations = pd.concat(citations, ignore_index=True)
+
+    # if no citation, just exit
+    if len(df_citations) == 0:
+        pd.DataFrame(columns=['id', 'n']).to_csv(outfile, sep='\t', index=False)
+        return df_article
+
+    # add citations
     df_citations = df_citations[df_citations['bpmid'] != '']
     df_citations = df_citations.astype(int)
     df_citations = df_citations[df_citations['apmid'].isin(df_article['id'].tolist())]
