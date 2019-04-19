@@ -27,10 +27,10 @@ $ pip install ./pubmed_parser
 ```
 $ pip install -r requirements.txt
 ```
-- Change 'source' and 'cd' lines to your full path. For example, if the code is in ~/pubmed_update and the virtualenv is in ~/pubmed_update/env/bin/activate, then change to:
+- Change 'PUBMED_UPDATE_PATH' and 'PUBMED_VENV_PATH' your full path. For example, if the code is in ~/pubmed_update and the virtualenv is in ~/pubmed_update/env/bin/activate, then change to:
 ```
-source ~/pubmed_update/env/bin/activate
-cd ~/pubmed_update
+export PUBMED_UPDATE_PATH=~/pubmed_update/env/bin/activate
+export PUBMED_VENV_PATH=~/pubmed_update
 ```
 - Start a Luigi server
 ```
