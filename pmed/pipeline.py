@@ -74,7 +74,7 @@ class ExtractDataTask(luigi.Task):
 # output is list of citation count
 class LoadDataTask(luigi.Task):
     # parameter specify whether to include citations that don't have data on PubMed OA. Exclude = 0, Include = 1
-    include_nodata = luigi.IntParameter()
+    include_nodata = luigi.IntParameter(default=0)
 
     # require ExtractDataTask to complete
     def requires(self):

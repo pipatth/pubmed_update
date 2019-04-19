@@ -17,6 +17,13 @@ def create_tables(conn):
         "CREATE TABLE IF NOT EXISTS citation (id INTEGER PRIMARY KEY UNIQUE AUTO_INCREMENT, apmid INTEGER, bpmid INTEGER) DEFAULT CHARSET=utf8mb4")
     conn.execute(
         "CREATE TABLE IF NOT EXISTS citecount (id INTEGER PRIMARY KEY UNIQUE, citations INTEGER) DEFAULT CHARSET=utf8mb4")
+    conn.execute("CREATE INDEX citation_apmid_IDX USING BTREE ON citation (apmid);")
+    conn.execute("CREATE INDEX citation_bpmid_IDX USING BTREE ON citation (bpmid);")
+    conn.execute("CREATE INDEX citecount_citations_IDX USING BTREE ON citecount (citations);")
+    conn.execute("CREATE INDEX article_pubyear_IDX USING BTREE ON article (pubyear);")
+    conn.execute("ALTER TABLE article ADD FULLTEXT (title);")
+    conn.execute("ALTER TABLE article ADD FULLTEXT (keywords);")
+    conn.execute("ALTER TABLE journal ADD FULLTEXT (name);")
     print('Tables created')
     return
 
