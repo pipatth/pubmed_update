@@ -154,6 +154,7 @@ def load_data(pmc_file, outfile, data_dir, include_nodata=0):
     for i,v in df_article.iterrows():
         df_article.loc[i, 'jid'] = get_jid(conn, v['journal'])
     df_article = df_article[['id', 'title', 'abstract', 'pubyear', 'jid', 'keywords', 'pmc']]
+    df_article['citations'] = 0
     write_tables(conn, df_article, 'article')
     print("Loaded {:} articles to database".format(len(df_article)))
 
@@ -202,28 +203,3 @@ def update_citecount(df_cites):
     return
 
 
-# update citecount table using GROUP BY SQL 
-def update_citecount_sql():
-
-    # connection to db
-    conn = sqlalchemy.create_engine(
-        Config.SQLALCHEMY_DATABASE_URI, pool_recycle=Config.DB_CONFIG['pool_recycle'])
-
-    # truncate
-    stmt = '''TRUNCATE TABLE citecount'''
-    conn.execute(stmt)
-
-    # update 
-    stmt = '''
-        INSERT INTO citecount
-        SELECT
-        bpmid AS id
-        , COUNT(1) AS citations
-        , CASE WHEN a.id IS NULL THEN 1 ELSE 0 END AS has_data
-        FROM citation c
-        LEFT OUTER JOIN article a
-        ON c.bpmid = a.id
-        GROUP BY bpmid, title
-        '''
-    conn.execute(stmt)
-    return
