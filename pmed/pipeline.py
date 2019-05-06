@@ -1,7 +1,7 @@
 import luigi
 import pandas as pd
 import os, glob
-from etl import prep_database, get_pmc_links, download_api, load_data, update_citecount, update_citecount_sql
+from etl import prep_database, get_pmc_links, download_api, load_data, update_citecount
 
 
 # task to start every task
