@@ -31,6 +31,9 @@ class PrepTask(luigi.Task):
 # task to get links to new articles from PubMed OA
 # output is links to PubMed
 class GetLinksTask(luigi.Task):
+    # parameter specify whether to get links only sampled 100 articles or not
+    only_sample = luigi.IntParameter(default=0)
+
     # require PrepTask to complete
     def requires(self):
         return PrepTask()
@@ -43,7 +46,7 @@ class GetLinksTask(luigi.Task):
     def run(self):
         # outfile
         with self.output().open('w') as outfile:
-            get_pmc_links(outfile)
+            get_pmc_links(outfile, only_sample=self.only_sample)
 
 
 # task to get data from eutil API
@@ -93,7 +96,7 @@ class LoadDataTask(luigi.Task):
         print('Saved {:} new PMIDs to database'.format(len(df_article)))    
 
 
-# task to update citecount table on the database
+# task to update citecount on the database
 # input is citation count, output is a logfile
 class UpdateCiteCountTask(luigi.Task):
     # require LoadDataTask to complete

@@ -25,7 +25,7 @@ def prep_database():
 
 
 # find PubMed articles to add to database
-def get_pmc_links(outfile):
+def get_pmc_links(outfile, only_sample=0):
 
     # links
     ftp_link = 'ftp.ncbi.nlm.nih.gov'
@@ -43,8 +43,13 @@ def get_pmc_links(outfile):
         ftp.quit()
 
     # read oa_file_list.txt
-    df = pd.read_csv(filename, sep='\t', skiprows=1, names=[
-                     'addr', 'journal', 'pmc', 'id', 'cc'])
+    # if only_sample, load only 3,000 articles
+    if only_sample == 1:
+        df = pd.read_csv(filename, sep='\t', skiprows=1, nrows=100, names=[
+                        'addr', 'journal', 'pmc', 'id', 'cc'])
+    else:
+        df = pd.read_csv(filename, sep='\t', skiprows=1, names=[
+                        'addr', 'journal', 'pmc', 'id', 'cc'])
     df = df[['id', 'pmc', 'addr']]
     df = df[(~df['id'].isna()) & (~df['pmc'].isna())]
     df['id'] = df['id'].str.replace('PMID:', '').fillna(0).astype(int)
