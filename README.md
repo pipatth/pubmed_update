@@ -18,7 +18,6 @@ mysql> CREATE DATABASE <your_database_name> CHARACTER SET utf8mb4 COLLATE utf8mb
 ```
 
 #### Set up a Luigi
-- Modify config.py to your MySQL database
 - Install VirtualEnv if you don't have it:
 ```
 $ pip install virtualenv
