@@ -49,7 +49,7 @@ $ luigid
 ```
 - To view the running task on Luigi, open a browser to http://127.0.0.1:8082
 
-#### To run a one-time update on database:
+#### To create a sample database:
 - cd into the directory 'pubmed_update'
 - In run_sample.sh Change 'PUBMED_UPDATE_PATH' and 'PUBMED_VENV_PATH' to your full path. For example, if the code is in ~/pubmed_update and the virtualenv is in ~/pubmed_update/env/bin/activate, then change to:
 ```
